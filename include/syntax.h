@@ -1,14 +1,19 @@
+#ifndef __MY_SCC_SYNTAX_
+#define __MY_SCC_SYNTAX_
+
+
 #include <stdlib.h>
-
-
-#define SC_GLOBAL 1
-#define SC_LOCAL 0
-#define SC_MEMBER 0
+#include "json.h"
+#include "symbol.h"
 
 
 /* 全局变量 */
-int syntax_state;       // 语法状态
-int syntax_level;       // 缩进级别
+Type char_pointer_type,     // 字符串指针
+     int_type,               // int 类型
+     default_func_type;      // 默认函数类型
+
+Stack global_sym_stack,     // 全局符号栈
+      local_sym_stack;      // 局部符号栈
 
 /* 语法状态枚举 */
 enum SynTaxState
@@ -23,7 +28,7 @@ enum SynTaxState
  * 功能：翻译单元，语法分析顶层
  * <translation_unit> ::= {<external_declaration>}<TK_EOF>
  */
-void translation_unit();
+JSONobj* translation_unit();
 
 /**
  * 功能： 解析外部声明
@@ -34,7 +39,7 @@ void translation_unit();
  *      | <declarator> [<TK_ASSIGN><initializer>]
  *       {<TK_COMMA><declarator>[<TK_ASSIGN><initializer>]}<TK_SEMICOLON>)
  */
-void external_declaration(int l);
+JSONobj external_declaration(int l);
 
 /**
  * 功能：解析类型区分符
@@ -263,3 +268,32 @@ void get_token();
 
 
 void syntax_indent();
+
+/**
+ * 功能：计算字节对齐位置
+ * n 未对齐前值
+ * align 对齐粒度
+ */
+int calc_align(int n, int align);
+
+/**
+ * 功能：自行添加  制作指针
+ * type 输入的类型
+ */
+void mk_pointer(Type *type);
+
+/**
+ * 功能： 函数调用约定
+ * fc 输出 调用约定
+ * 用于函数声明 不用在数据声明
+ */
+void function_calling_convention(int *fc);
+
+/**
+ * 功能：返回类型长度
+ * t 数据类型指针
+ * a 对齐值
+ */
+int type_size(Type *t, int *a);
+
+#endif // __MY_SCC_SYNTAX_

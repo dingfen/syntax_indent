@@ -15,13 +15,13 @@
 /**
  * 词法分析程序初始化
  */ 
-void init();
+// void init();
 
 
 /**
  * 清理工作
  */
-void cleanup();
+// void cleanup();
 
 /**
  * 获得取到的源码字符
