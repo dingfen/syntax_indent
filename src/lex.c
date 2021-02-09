@@ -16,26 +16,26 @@ extern int tkvalue;            // 单词的词法值
 /**
  * 词法分析程序初始化
  */ 
-// void init()
-// {
-//     line_num = 1;
-//     column_num = 0;
-//     init_lex();
-// }
+void init()
+{
+    line_num = 1;
+    column_num = 0;
+    init_lex();
+}
 
 /**
  * 清理工作
  */
-// void cleanup()
-// {
-//     int i;
-//     printf("\ntktable.count=%d\n", tktable.count);
-//     for(i = TK_IDENT; i < tktable.count; i++)
-//     {
-//         free(tktable.data[i]);
-//     }
-//     free(tktable.data);
-// }
+void cleanup()
+{
+    int i;
+    printf("\ntktable.count=%d\n", tktable.count);
+    for(i = TK_IDENT; i < tktable.count; i++)
+    {
+        free(tktable.data[i]);
+    }
+    free(tktable.data);
+}
 
 /**
  * 获得取到的源码字符
@@ -253,6 +253,39 @@ void parse_string(char sep)
     dynstring_append(&sourcestr, '\0');
     getch();
 } 
+
+/**
+ * 词法着色
+ */
+
+// void color_print(char *fmt, ...)
+// {
+//     va_list ap;
+//     char buf[1024];
+//     va_start(ap, fmt);
+//     vsprintf(buf, fmt, ap);
+//     printf("%s", buf);
+//     va_end(ap);
+// }
+
+// void color_token()
+// {
+//     char *p = get_tkstr(token);
+//     char fmt[128] = "";
+//     if (token >= TK_IDENT)  {// 标识符 为白色
+//         sprintf(fmt, "%%s");
+//     }
+//     else if (token >= KW_CHAR)  {// 关键字 蓝色 34
+//         sprintf(fmt, "\033[%dm%%s\033[0m", BLUE);
+//     }
+//     else if (token >= TK_CINT) {// 常量 黄色 33
+//         sprintf(fmt, "\033[%dm%%s\033[0m", YELLOW);
+//     }
+//     else {// 运算符等  红色 31
+//         sprintf(fmt, "\033[%dm%%s\033[0m", RED);
+//     }
+//     color_print(fmt, p);
+// }
 
 /**
  * 取单词主程序
